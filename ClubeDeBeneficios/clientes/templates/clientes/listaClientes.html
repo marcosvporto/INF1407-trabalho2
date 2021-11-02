@@ -10,14 +10,16 @@
 <body>
     {% include 'clientes/links.html' %}
     <table> 
-        <tr><th>Nome</th><th>Idade</th><th>Salário</th><th>Ações disponíveis</th></tr> 
+        <tr><th>Nome</th><th>Telefone</th><th>Data de Nascimento</th><th>Ações disponíveis</th></tr> 
         {% for pessoa in pessoas %} 
             <tr> 
-                <td>{{ pessoa.nome }}</td><td>{{pessoa.idade }}</td><td>{{ pessoa.salario }}</td> 
-               
+                <td>{{ pessoa.nome }}</td><td>{{ pessoa.telefone }}</td><td>{{ pessoa.dtNasc }}</td> 
+
+                <td><a href="{% url 'clientes:atualiza-cliente' pk=pessoa.id %}">Atualizar</a> |  
+                    <a href="{% url 'clientes:apaga-cliente' pk=pessoa.id %}">Excluir</a></td> 
            </tr> 
         {% empty %} 
-            <tr><th colspan="4">Ainda não tem contatos cadastrados</th></tr> 
+            <tr><th colspan="4">Ainda não tem clientes cadastrados</th></tr> 
         {% endfor %} 
     </table>
 </body>

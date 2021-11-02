@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#INF1407
+*~
+myvenv
+/static
+.DS_Store
+
 # C extensions
 *.so
 

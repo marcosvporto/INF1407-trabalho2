@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <title>Apaga Cliente</title> 
+    </head> 
+    <body> 
+        {% include 'clientes/links.html' %} 
+        <h1>Remoção de clientes</h1> 
+        <form method="POST"> 
+            <!-- não esquecer de incluir o token abaixo --> 
+            {% csrf_token %} 
+            Confirma a remoção de {{ pessoa.nome }}?<br> 
+            <button> 
+                <a href="{% url 'clientes:lista-clientes' %}"  
+                style="text-decoration: none; color: black;"> 
+                Cancelar
+                </a> 
+            </button> 
+            <input type="submit" value="Remover"> 
+        </form> 
+    </body> 
+</html>

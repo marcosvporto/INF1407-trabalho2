@@ -1,7 +1,7 @@
 <!--  
 Para incluir esse fragmento de página HTML 
 em uma página HTML use: 
-{ % include 'contatos/links.html' % } 
+{ % include 'clientes/links.html' % } 
  --> 
  <a href="/"> 
     Home-Page 
@@ -12,6 +12,7 @@ em uma página HTML use:
   <a href="{% url 'clientes:lista-clientes' %}"> 
     Listar clientes
   </a> | 
+  <a href="{% url 'clientes:cria-cliente' %}">
     Cadastrar cliente 
   </a> 
   <hr>
