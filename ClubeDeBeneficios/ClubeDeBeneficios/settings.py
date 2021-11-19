@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ClubeDeBeneficios',
     'clientes',
 ]
 
@@ -70,7 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ClubeDeBeneficios.wsgi.application'
 
-
+EMAIL_BACKEND =  'django.core.mail.backends.console.EmailBackend'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

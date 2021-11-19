@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+
+<body>
+    <h1>Site Seguro</h1>
+    <a href="/">Homepage</a> | 
+    <a href="{% url 'sec-home' %}">Página inicial de segurança</a> |
+    {% if user.is_authenticated %} 
+    <a href="{% url 'sec-logout' %}">Logout</a> |
+    <a href="{% url 'sec-password_change' %}">Trocar senha</a> |
+    <a href="{% url 'sec-completaDadosUsuario' pk=user.id %}">Terminar registro</a> |
+    Bem-vindo {{ user.username }}
+    {% else %}
+    <a href="{% url 'sec-registro' %}">Registrar</a> |
+    <a href="{% url 'sec-login' %}?next={% url 'sec-paginaProfile' %}">Login</a> |
+    Bem-vindo visitante !
+    {% endif %} 
+    <hr>
+    {% block conteudo %}{% endblock %}
+</body>
+
+</html>
