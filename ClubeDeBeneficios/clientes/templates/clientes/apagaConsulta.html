@@ -1,0 +1,17 @@
+{% extends 'clientes/base.html' %}
+{% block titulo %}Gestão de Agendas{% endblock %}
+{% block conteudo %} 
+        <h1>Remoção de Agenda</h1> 
+        <form method="POST"> 
+            <!-- não esquecer de incluir o token abaixo --> 
+            {% csrf_token %} 
+            Confirma a remoção de {{ consulta.especialidade }} em {{ consulta.horario }}?<br> 
+            <button> 
+                <a href="{% url 'clientes:lista-consultas' %}"  
+                style="text-decoration: none; color: black;"> 
+                Cancelar
+                </a> 
+            </button> 
+            <input type="submit" value="Remover"> 
+        </form> 
+{% endblock%}

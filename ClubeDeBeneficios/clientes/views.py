@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from clientes.models import Pessoa, Plano
+from clientes.models import Pessoa, Plano, Consulta
 from django.views.generic.base import View
 from clientes.forms import ClienteModel2Form, ClienteUpdateModel2Form
 from clientes.forms import PlanoModel2Form
+from clientes.forms import ConsultaModel2Form
 from django.http.response import HttpResponseRedirect 
 from django.urls.base import reverse_lazy
 # Create your views here.
@@ -96,7 +97,7 @@ class PlanoUpdateView(View):
             plano.save() 
             return HttpResponseRedirect(reverse_lazy("clientes:lista-planos")) 
         else: 
-            context = {'pessoa': formulario, } 
+            context = {'plano': formulario, } 
             return render(request, 'clientes/atualizaPlano.html', context)
 
 
@@ -112,3 +113,58 @@ class PlanoDeleteView(View):
         print("Removendo o plano", pk) 
         return HttpResponseRedirect( 
             reverse_lazy("clientes:lista-planos"))
+
+
+#Consultas
+class ConsultaListView(View):
+    def get(self, request, *args, **kwargs):
+        consultas = Consulta.objects.all()
+        context = {'consultas':consultas, }
+        return render(request, 'clientes/listaConsultas.html', context)
+
+class ConsultaCreateView(View): 
+    def get(self, request, *args, **kwargs): 
+        context = { 'formulario': ConsultaModel2Form, } 
+        return render(request,"clientes/criaConsulta.html", context) 
+     
+    def post(self, request, *args, **kwargs): 
+        formulario = ConsultaModel2Form(request.POST) 
+        if formulario.is_valid(): 
+            consulta = formulario.save() 
+            consulta.save() 
+            return HttpResponseRedirect(reverse_lazy("clientes:lista-consultas"))
+        context = { 'formulario': ConsultaModel2Form, } 
+        return render(request,"clientes/criaConsulta.html", context)
+
+
+class ConsultaUpdateView(View):
+    def get(self, request, pk, *args, **kwargs):
+        consulta = get_object_or_404(Consulta, pk=pk)
+        formulario = ConsultaModel2Form(instance=consulta)
+        context = {'formulario':formulario, }
+        return render(request, 'clientes/atualizaConsulta.html', context)
+    
+    def post(self, request, pk, *args, **kwargs): 
+        consulta = get_object_or_404(Consulta, pk=pk) 
+        formulario = ConsultaModel2Form(request.POST, instance=consulta) 
+        if formulario.is_valid(): 
+            consulta = formulario.save() 
+            consulta.save() 
+            return HttpResponseRedirect(reverse_lazy("clientes:lista-consultas")) 
+        else: 
+            context = {'consulta': formulario, } 
+            return render(request, 'clientes/atualizaConsulta.html', context)
+
+
+class ConsultaDeleteView(View): 
+    def get(self, request, pk, *args, **kwargs): 
+        consulta = Consulta.objects.get(pk=pk) 
+        context = {'consulta': consulta, } 
+        return render( 
+            request, 'clientes/apagaConsulta.html', context)  
+    def post(self, request, pk, *args, **kwargs): 
+        consulta = Consulta.objects.get(pk=pk) 
+        consulta.delete() 
+        print("Removendo a consulta", pk) 
+        return HttpResponseRedirect( 
+            reverse_lazy("clientes:lista-consultas"))

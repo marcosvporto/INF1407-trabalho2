@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime as dt
 # Create your models here.
 
 class Plano(models.Model):
@@ -17,15 +17,19 @@ class Pessoa(models.Model):
     dtNasc = models.DateField(help_text='Nascimento no formato DD/MM/AAAA',verbose_name='Data de nascimento')
     plano = models.ManyToManyField(Plano)
 
-class Cadastro(models.Model):
-    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
-    plano = models.ForeignKey(Plano, on_delete=models.CASCADE)
-    qtdConsultas = models.IntegerField(help_text='Percentual de Desconto nas Consultas')
+    def __str__(self):
+        return str(self.nome)+" - "+str(self.CPF)
 
 class Consulta(models.Model):
-    especialidade = models.CharField(max_length=100, help_text='Entre com a especialidade')
-    horario = models.DateField(help_text='Nascimento no formato DD/MM/AAAA',verbose_name='Data de nascimento')
+    ESPECIALIDADES = (
+        ("NUTRI", "Nutrição"),
+        ("PSI", "Psicologia"),
+        ("ENDOCRINO", "Endocrinologia"),
+        ("GASTRO","Gastroentereologia"),
+        ("OTORRINO","Otorrinolaringologia"),
+    )
+    HORARIOS = [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(7, 17,2)]
+    especialidade = models.CharField(max_length=20,choices=ESPECIALIDADES, help_text='Entre com a especialidade')
+    data = models.DateField(help_text='Data da Consuta no formato DD/MM/AAAA',verbose_name='Data')
+    horario = models.TimeField(help_text='Hora da Consuta',choices=HORARIOS,verbose_name='Horário')
     pessoa = models.OneToOneField(Pessoa, null=True, blank=True, on_delete=models.SET_NULL)
-
-def __str__(self):
-    return self.nome

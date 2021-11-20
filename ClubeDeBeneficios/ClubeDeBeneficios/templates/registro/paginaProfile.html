@@ -3,10 +3,14 @@
 {% block titulo %}Página Secreta{% endblock %}
 
 {% block conteudo %}
-<h2>Gestão de Clientes</h2>
+<h2>Gestão da Clínica</h2>
 <ul>
+    <li><a href="{% url 'sec-completaDadosUsuario' pk=user.id %}">Atualizar Seus Dados</a></li>
     <li><a href="{% url 'clientes:lista-clientes' %}">Listar Clientes</a></li>
     <li><a href="{% url 'clientes:cria-cliente' %}">Cadastrar Novo Cliente</a></li>
-
+    <li><a href="{% url 'clientes:lista-planos' %}">Listar Planos de Benefícios</a></li>
+    <li><a href="{% url 'clientes:cria-plano' %}">Cadastrar Novo Plano de Benefícios</a></li>
+    <li><a href="{% url 'clientes:lista-consultas' %}">Listar Agendas</a></li>
+    <li><a href="{% url 'clientes:cria-consulta' %}">Cadastrar Nova Agenda</a></li>
 </ul>
 {% endblock%}
