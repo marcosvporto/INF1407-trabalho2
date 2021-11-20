@@ -9,6 +9,9 @@ class MeuUpdateView(UpdateView):
     else: 
       return redirect('sec-home')
 
+def homePage(request):
+  return render(request,'ClubeDeBeneficios/index.html')
+  
 def homeSec(request):
     return render(request, "registro/homeSec.html")
 

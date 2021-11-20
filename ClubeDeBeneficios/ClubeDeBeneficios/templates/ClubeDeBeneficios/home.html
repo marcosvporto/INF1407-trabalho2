@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+
+<body>
+    <h1>Clínica Médica MedClin</h1>
+    
+    {% if user.is_authenticated %} 
+    Bem-vindo {{ user.username }} |
+    <a href="/">Homepage</a> | 
+    
+    <a href="{% url 'sec-logout' %}">Logout</a> |
+    <a href="{% url 'clientes:lista-clientes' %}">Clientes</a> |
+    {% else %}
+    Bem-vindo visitante |
+    <a href="/">Homepage</a> | 
+    <a href="{% url 'clientes:cria-cliente' %}">Clientes</a> |
+    {% endif %} 
+    <a href="{% url 'sec-home' %}">Membros</a> |
+    
+    <hr>
+    {% block conteudo %}{% endblock %}
+</body>
+
+</html>

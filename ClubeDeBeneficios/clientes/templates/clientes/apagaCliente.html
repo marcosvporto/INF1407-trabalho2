@@ -1,11 +1,6 @@
-<!DOCTYPE html> 
-<html> 
-    <head> 
-        <meta charset="UTF-8"> 
-        <title>Apaga Cliente</title> 
-    </head> 
-    <body> 
-        {% include 'clientes/links.html' %} 
+{% extends 'clientes/base.html' %}
+{% block titulo %}Registro de Usuário{% endblock %}
+{% block conteudo %} 
         <h1>Remoção de clientes</h1> 
         <form method="POST"> 
             <!-- não esquecer de incluir o token abaixo --> 
@@ -19,5 +14,4 @@
             </button> 
             <input type="submit" value="Remover"> 
         </form> 
-    </body> 
-</html>
+{% endblock%}

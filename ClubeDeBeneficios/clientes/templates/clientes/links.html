@@ -3,16 +3,8 @@ Para incluir esse fragmento de página HTML
 em uma página HTML use: 
 { % include 'clientes/links.html' % } 
  --> 
- <a href="/"> 
-    Home-Page 
-  </a> | 
-  <a href="{% url 'clientes:home-clientes' %}"> 
-    Página inicial 
-  </a> | 
-  <a href="{% url 'clientes:lista-clientes' %}"> 
-    Listar clientes
-  </a> | 
-  <a href="{% url 'clientes:cria-cliente' %}">
-    Cadastrar cliente 
-  </a> 
+  <a href="/">Home-Page</a> | 
+  <a href="{% url 'clientes:home-clientes' %}"> Página inicial  </a> | 
+  <a href="{% url 'clientes:lista-clientes' %}">Listar clientes </a> | 
+  <a href="{% url 'clientes:cria-cliente' %}"> Cadastrar cliente </a> 
   <hr>

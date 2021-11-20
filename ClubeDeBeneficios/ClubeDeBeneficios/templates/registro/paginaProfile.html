@@ -3,9 +3,10 @@
 {% block titulo %}Página Secreta{% endblock %}
 
 {% block conteudo %}
-<h2>Página Secreta</h2>
-<p>
-    Este é o conteúdo da página secreta.
-    Esse conteúdo somente pode ser visto por usuários autenticados.
-</p>
+<h2>Gestão de Clientes</h2>
+<ul>
+    <li><a href="{% url 'clientes:lista-clientes' %}">Listar Clientes</a></li>
+    <li><a href="{% url 'clientes:cria-cliente' %}">Cadastrar Novo Cliente</a></li>
+
+</ul>
 {% endblock%}

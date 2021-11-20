@@ -25,13 +25,14 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.models import User
 
 urlpatterns = [
+    path('', views.homePage, name='home-page'),
     path('admin/', admin.site.urls),
-    path('clientes/', include('clientes.urls')),
+    path('clientes/', include('clientes.urls', namespace='clientes')),
     path('accounts/', views.homeSec, name='sec-home'),
     path('accounts/registro/', views.registro, name='sec-registro'),
     path('accounts/login/', LoginView.as_view( template_name='registro/login.html', ), name='sec-login'),
     path('accounts/profile/', views.paginaProfile,name='sec-paginaProfile'),
-    path('logout/', LogoutView.as_view(next_page=reverse_lazy('sec-home'),), name='sec-logout'),
+    path('logout/', LogoutView.as_view(next_page=reverse_lazy('home-page'),), name='sec-logout'),
     path('accounts/password_change/', PasswordChangeView.as_view(template_name='registro/password_change_form.html',success_url=reverse_lazy('sec-password_change_done'), ), name='sec-password_change'), 
     path('accounts/password_change_done/', PasswordChangeDoneView.as_view( template_name='registro/password_change_done.html',), name='sec-password_change_done'),
     path('accounts/terminaRegistro/<int:pk>/',UpdateView.as_view(template_name='registro/user_form.html', success_url=reverse_lazy('sec-home'), model=User,fields=['first_name','last_name','email',],), name='sec-completaDadosUsuario'),
