@@ -36,7 +36,7 @@ class ClienteUpdateView(View):
     
     def post(self, request, pk, *args, **kwargs): 
         pessoa = get_object_or_404(Pessoa, pk=pk) 
-        formulario = ClienteModel2Form(request.POST, instance=pessoa) 
+        formulario = ClienteUpdateModel2Form(request.POST, instance=pessoa) 
         if formulario.is_valid(): 
             pessoa = formulario.save() 
             pessoa.save() 

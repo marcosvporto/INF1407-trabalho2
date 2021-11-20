@@ -9,17 +9,14 @@ class ClienteModel2Form(forms.ModelForm):
         help_text='Nascimento no formato DD/MM/AAAA')
     class Meta: 
         model = Pessoa 
-        fields = '__all__'
+        fields = ['nome','CPF','email','telefone','dtNasc']
 
 
 class ClienteUpdateModel2Form(forms.ModelForm): 
-    dtNasc = forms.DateField( 
-        input_formats=["%d/%m/%Y"],  
-        label='Data de nascimento',
-        help_text='Nascimento no formato DD/MM/AAAA')
     class Meta: 
         model = Pessoa 
-        fields = ['nome','email','telefone','dtNasc']
+        fields = ['nome','email','telefone','plano']
+        plano = forms.ModelMultipleChoiceField(queryset=Plano.objects.all(), to_field_name='nome',widget=forms.Select())
         
 class PlanoModel2Form(forms.ModelForm): 
     class Meta: 
