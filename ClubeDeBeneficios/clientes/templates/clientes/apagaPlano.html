@@ -1,0 +1,17 @@
+{% extends 'clientes/base.html' %}
+{% block titulo %}Registro de Planos de Benefícios{% endblock %}
+{% block conteudo %} 
+        <h1>Remoção de planos</h1> 
+        <form method="POST"> 
+            <!-- não esquecer de incluir o token abaixo --> 
+            {% csrf_token %} 
+            Confirma a remoção de {{ plano.nome }}?<br> 
+            <button> 
+                <a href="{% url 'clientes:lista-planos' %}"  
+                style="text-decoration: none; color: black;"> 
+                Cancelar
+                </a> 
+            </button> 
+            <input type="submit" value="Remover"> 
+        </form> 
+{% endblock%}

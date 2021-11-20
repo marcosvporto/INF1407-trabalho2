@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from clientes.models import Pessoa
+from clientes.models import Pessoa, Plano
 from django.views.generic.base import View
 from clientes.forms import ClienteModel2Form, ClienteUpdateModel2Form
 from clientes.forms import PlanoModel2Form
@@ -60,7 +60,12 @@ class ClienteDeleteView(View):
         return HttpResponseRedirect( 
             reverse_lazy("clientes:lista-clientes"))
     
-        
+class PlanosListView(View):
+    def get(self, request, *args, **kwargs):
+        planos = Plano.objects.all()
+        context = {'planos':planos, }
+        return render(request, 'clientes/listaPlanos.html', context)
+
 class PlanoCreateView(View): 
     def get(self, request, *args, **kwargs): 
         context = { 'formulario': PlanoModel2Form, } 
@@ -74,3 +79,36 @@ class PlanoCreateView(View):
             return HttpResponseRedirect(reverse_lazy("clientes:lista-planos"))
         context = { 'formulario': PlanoModel2Form, } 
         return render(request,"clientes/criaPlano.html", context)
+
+
+class PlanoUpdateView(View):
+    def get(self, request, pk, *args, **kwargs):
+        plano = get_object_or_404(Plano, pk=pk)
+        formulario = PlanoModel2Form(instance=plano)
+        context = {'formulario':formulario, }
+        return render(request, 'clientes/atualizaPlano.html', context)
+    
+    def post(self, request, pk, *args, **kwargs): 
+        plano = get_object_or_404(Plano, pk=pk) 
+        formulario = PlanoModel2Form(request.POST, instance=plano) 
+        if formulario.is_valid(): 
+            plano = formulario.save() 
+            plano.save() 
+            return HttpResponseRedirect(reverse_lazy("clientes:lista-planos")) 
+        else: 
+            context = {'pessoa': formulario, } 
+            return render(request, 'clientes/atualizaPlano.html', context)
+
+
+class PlanoDeleteView(View): 
+    def get(self, request, pk, *args, **kwargs): 
+        plano = Plano.objects.get(pk=pk) 
+        context = {'plano': plano, } 
+        return render( 
+            request, 'clientes/apagaPlano.html', context)  
+    def post(self, request, pk, *args, **kwargs): 
+        plano = Plano.objects.get(pk=pk) 
+        plano.delete() 
+        print("Removendo o plano", pk) 
+        return HttpResponseRedirect( 
+            reverse_lazy("clientes:lista-planos"))

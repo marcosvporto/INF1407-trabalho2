@@ -10,7 +10,7 @@ class Pessoa(models.Model):
 
 class Plano(models.Model):
     nome = models.CharField(max_length=100, help_text='Entre com o nome do Plano')
-    qtConsulta = models.IntegerField(help_text='Consultas com desconto no mês')
+    qtConsulta = models.IntegerField(help_text='Quantidade de consultas com desconto no mês', verbose_name='Consultas')
     desconto = models.IntegerField(help_text='Percentual de Desconto nas Consultas')
 
 class Cadastro(models.Model):
