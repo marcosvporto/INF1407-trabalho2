@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from clientes.models import Pessoa, Plano, Consulta
+from django.views.generic.edit import CreateView
 from django.views.generic.base import View
 from clientes.forms import ClienteModel2Form, ClienteUpdateModel2Form
 from clientes.forms import PlanoModel2Form
@@ -8,7 +9,7 @@ from django.http.response import HttpResponseRedirect
 from django.urls.base import reverse_lazy
 from django.http import HttpResponse
 from django.http import JsonResponse
-
+from django.core import serializers
 # Create your views here.
 class ClientesListView(View):
     def get(self, request, *args, **kwargs):
@@ -188,18 +189,21 @@ class ConsultaDeleteView(View):
             reverse_lazy("clientes:lista-consultas"))
 
 
-class AgendaClienteView(View):
+class AgendaClienteView(CreateView):
     def get(self, request, *args, **kwargs): 
         context = { 'formulario': ClienteConsultaForm, } 
-        return render(request,"clientes/verificaCliente.html", context) 
-     
-    def post(self, request, *args, **kwargs):
-        formulario = ClienteConsultaForm(request.POST) 
-        print('CPF = ', formulario['CPF'].value())
-        if Pessoa.objects.filter(CPF=formulario['CPF'].value()).exists():
-            return HttpResponseRedirect(reverse_lazy("clientes:consultas-cliente",kwargs={"pk":str(formulario['CPF'].value())}))
-        context = { 'formulario': ClienteConsultaForm, } 
-        return render(request,"clientes/verificaCliente.html", context)
+        return render(request,"clientes/verificaClienteAjax.html", context) 
+    
+    # template_name = "clientes/verificaClienteAjax.html"
+    # form_class = ClienteConsultaForm
+    
+    # def post(self, request, *args, **kwargs):
+    #     formulario = ClienteConsultaForm(request.POST) 
+    #     print('CPF = ', formulario['CPF'].value())
+    #     if Pessoa.objects.filter(CPF=formulario['CPF'].value()).exists():
+    #         return HttpResponseRedirect(reverse_lazy("clientes:consultas-cliente",kwargs={"pk":str(formulario['CPF'].value())}))
+    #     context = { 'formulario': ClienteConsultaForm, } 
+    #     return render(request,"clientes/verificaCliente.html", context)
 
 
 
@@ -209,3 +213,13 @@ class ClienteConsultaListView(View):
         consultas = Consulta.objects.filter(pessoa = cliente)
         context = {'consultas':consultas, }
         return render(request, 'clientes/listaConsultasCliente.html', context)
+
+
+def verificaCliente(request):
+    cpf = request.GET.get("CPF", None)
+    if Pessoa.objects.filter(CPF=cpf).exists():
+        pessoa = Pessoa.objects.get(pk=cpf)
+        consultas = Consulta.objects.filter(pessoa= pessoa)
+        ser_consultas = serializers.serialize("json", consultas)
+        return JsonResponse({"consultas":ser_consultas})
+    return JsonResponse({"consultas":False})    

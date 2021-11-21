@@ -1,0 +1,75 @@
+{% extends 'clientes/base.html' %}
+{% block titulo %}Consultar Agenda do Cliente{% endblock %}
+{% block conteudo %} 
+    <h1>Consultar Agenda do Cliente</h1> 
+    <form action="" method="GET"> 
+        {% csrf_token %} 
+        <table class="formulario"> 
+            <tbody>
+                <tr>
+                    <th>
+                        <label for="id_CPF">Cpf:</label>
+                    </th>
+                    <td>
+                        <input type="number" name="CPF" min="0" max="99999999999" required="" id="id_CPF"><br>
+                        <span class="helptext">Entre com seu CPF usando apenas números</span>
+                    </td>
+                </tr> 
+        </tbody></table>
+    </form> 
+    <div>
+        <table>
+    <thead>
+        <tr>
+            <th>Especialidade</th>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Pessoa</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+        <tbody id="tableData"></tbody>
+    </table>
+    </div>
+    <script language="javascript" type="text/javascript">
+        onload = function() {
+            document.getElementById('id_CPF').addEventListener('keyup', function (e) {
+            // recupera o campo username do formulário
+                var campoCPF = document.getElementById('id_CPF');
+                // cria o objeto HTTP Request e abre a conexão
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("GET","{% url 'clientes:busca-cliente' %}?CPF="+ encodeURIComponent(campoCPF.value), true);
+                xmlhttp.send(null);
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var resposta = JSON.parse(xmlhttp.responseText);
+                        tabelaResposta(resposta);        
+                    } 
+                }  
+            })
+        }
+        function tabelaResposta(resposta) {
+            
+            var mainObj = JSON.parse(resposta.consultas);
+            var k = '<tbody>'
+
+            for(i = 0;i < mainObj.length; i++){
+                
+                k+= '<tr>';
+                k+= '<td>' + mainObj[i]["fields"]["especialidade"] + '</td>';
+                k+= '<td>' + mainObj[i]["fields"]["data"] + '</td>';
+                k+= '<td>' + mainObj[i]["fields"]["horario"] + '</td>';
+                k+= '<td>' + mainObj[i]["fields"]["pessoa"] + '</td>';
+                k+= '<td>' + mainObj[i]["fields"]["precoDesconto"] + '</td>';
+
+
+                k+= '</tr>';
+            }
+            k+='</tbody>';
+            
+            document.getElementById('tableData').innerHTML = k;
+        }
+    </script>
+{% endblock%}
+
+

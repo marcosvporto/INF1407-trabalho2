@@ -11,6 +11,8 @@ urlpatterns = [
     path('apaga/<int:pk>/', views.ClienteDeleteView.as_view(), name='apaga-cliente'),
     path('verifica/', views.AgendaClienteView.as_view(), name='verifica-cliente'),
 
+    path('busca/', views.verificaCliente, name='busca-cliente'),
+
     path('planos/cria/', views.PlanoCreateView.as_view(), name='cria-plano'),
     path('planos/lista/', views.PlanosListView.as_view(), name='lista-planos'),
     path('planos/atualiza/<int:pk>/', views.PlanoUpdateView.as_view(), name='atualiza-plano'),
