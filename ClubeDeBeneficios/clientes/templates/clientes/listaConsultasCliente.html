@@ -1,0 +1,19 @@
+{% extends 'clientes/base.html' %}
+{% block titulo %}Gestão de Agendas{% endblock %}
+{% block conteudo %}
+    <table> 
+        <tr><th>Especialidade</th><th>Data</th><th>Horário</th><th>Pessoa</th><th>Valor</th></tr> 
+        {% for consulta in consultas %} 
+            <tr> 
+                <td>{{ consulta.especialidade }}</td><td>{{ consulta.data }}</td><td>{{ consulta.horario }}</td><td>{{ consulta.pessoa }}</td><td>R${{ consulta.precoDesconto }}</td> 
+
+                <!-- <td>
+                    <a href="{% url 'clientes:atualiza-consulta' pk=consulta.id %}"> Atualizar</a> |  
+                    <a href="{% url 'clientes:apaga-consulta' pk=consulta.id %}">    Excluir  </a>
+                </td>  -->
+           </tr> 
+        {% empty %} 
+            <tr><th colspan="4">Ainda não tem consultas cadastradas</th></tr> 
+        {% endfor %} 
+    </table>
+{% endblock%}

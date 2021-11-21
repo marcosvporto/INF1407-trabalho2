@@ -3,9 +3,12 @@ from clientes.models import Pessoa, Plano, Consulta
 from django.views.generic.base import View
 from clientes.forms import ClienteModel2Form, ClienteUpdateModel2Form
 from clientes.forms import PlanoModel2Form
-from clientes.forms import ConsultaModel2Form
+from clientes.forms import ConsultaModel2Form, ClienteConsultaForm
 from django.http.response import HttpResponseRedirect 
 from django.urls.base import reverse_lazy
+from django.http import HttpResponse
+from django.http import JsonResponse
+
 # Create your views here.
 class ClientesListView(View):
     def get(self, request, *args, **kwargs):
@@ -24,7 +27,7 @@ class ClienteCreateView(View):
         if formulario.is_valid(): 
             cliente = formulario.save() 
             cliente.save() 
-            return HttpResponseRedirect(reverse_lazy("clientes:lista-clientes"))
+            return HttpResponseRedirect(reverse_lazy("clientes:verifica-cliente"))
         context = { 'formulario': ClienteModel2Form, } 
         return render(request,"clientes/criaCliente.html", context)
         
@@ -37,7 +40,8 @@ class ClienteUpdateView(View):
     
     def post(self, request, pk, *args, **kwargs): 
         pessoa = get_object_or_404(Pessoa, pk=pk) 
-        formulario = ClienteUpdateModel2Form(request.POST, instance=pessoa) 
+        formulario = ClienteUpdateModel2Form(request.POST, instance=pessoa)
+        print("Plano", formulario['plano'].value()) 
         if formulario.is_valid(): 
             pessoa = formulario.save() 
             pessoa.save() 
@@ -129,6 +133,7 @@ class ConsultaCreateView(View):
      
     def post(self, request, *args, **kwargs): 
         formulario = ConsultaModel2Form(request.POST) 
+        
         if formulario.is_valid(): 
             consulta = formulario.save() 
             consulta.save() 
@@ -146,7 +151,16 @@ class ConsultaUpdateView(View):
     
     def post(self, request, pk, *args, **kwargs): 
         consulta = get_object_or_404(Consulta, pk=pk) 
-        formulario = ConsultaModel2Form(request.POST, instance=consulta) 
+        formulario = ConsultaModel2Form(request.POST, instance=consulta)
+        cpfPessoa = formulario['pessoa'].value()
+        pessoa = Pessoa.objects.get(pk=cpfPessoa)
+        print('Pessoa:',pessoa)
+        plano = pessoa.plano
+        print('Plano:',plano)
+        if plano != None:
+            print("Pessoa tem plano definido")
+        else:
+            print("Pessoa NAO tem plano definido")
         if formulario.is_valid(): 
             consulta = formulario.save() 
             consulta.save() 
@@ -168,3 +182,26 @@ class ConsultaDeleteView(View):
         print("Removendo a consulta", pk) 
         return HttpResponseRedirect( 
             reverse_lazy("clientes:lista-consultas"))
+
+
+class AgendaClienteView(View):
+    def get(self, request, *args, **kwargs): 
+        context = { 'formulario': ClienteConsultaForm, } 
+        return render(request,"clientes/verificaCliente.html", context) 
+     
+    def post(self, request, *args, **kwargs):
+        formulario = ClienteConsultaForm(request.POST) 
+        print('CPF = ', formulario['CPF'].value())
+        if Pessoa.objects.filter(CPF=formulario['CPF'].value()).exists():
+            return HttpResponseRedirect(reverse_lazy("clientes:consultas-cliente",kwargs={"pk":str(formulario['CPF'].value())}))
+        context = { 'formulario': ClienteConsultaForm, } 
+        return render(request,"clientes/verificaCliente.html", context)
+
+
+
+class ClienteConsultaListView(View):
+    def get(self, request, pk, *args, **kwargs):
+        cliente = get_object_or_404(Pessoa, pk=pk)
+        consultas = Consulta.objects.filter(pessoa = cliente)
+        context = {'consultas':consultas, }
+        return render(request, 'clientes/listaConsultasCliente.html', context)

@@ -2,10 +2,10 @@
 {% block titulo %}Gestão de Agendas{% endblock %}
 {% block conteudo %}
     <table> 
-        <tr><th>Especialidade</th><th>Horário</th><th>Pessoa</th><th>Ações disponíveis</th></tr> 
+        <tr><th>Especialidade</th><th>Data</th><th>Horário</th><th>Pessoa</th><th>Valor Original</th><th>Valor com Desconto</th><th>Ações disponíveis</th></tr> 
         {% for consulta in consultas %} 
             <tr> 
-                <td>{{ consulta.especialidade }}</td><td>{{ consulta.horario }}</td><td>{{ consulta.pessoa }}</td> 
+                <td>{{ consulta.especialidade }}</td><td>{{ consulta.data }}</td><td>{{ consulta.horario }}</td><td>{{ consulta.pessoa }}</td><td>{{ consulta.precoOriginal }}</td><td>{{ consulta.precoDesconto }}</td> 
 
                 <td><a href="{% url 'clientes:atualiza-consulta' pk=consulta.id %}"> Atualizar</a> |  
                     <a href="{% url 'clientes:apaga-consulta' pk=consulta.id %}">    Excluir  </a>

@@ -22,7 +22,7 @@
     <a href="{% url 'sec-paginaProfile' %}">Gestão</a> |
     Bem-vindo {{ user.username }}
     {% else %}
-    <a href="{% url 'clientes:cria-cliente' %}">Clientes</a> |
+    <a href="{% url 'clientes:verifica-cliente' %}">Clientes</a> |
     <a href="{% url 'sec-registro' %}">Registrar</a> |
     <a href="{% url 'sec-login' %}?next={% url 'sec-paginaProfile' %}">Login</a> |
     Bem-vindo visitante !

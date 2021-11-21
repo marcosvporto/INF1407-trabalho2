@@ -2,10 +2,10 @@
 {% block titulo %}Registro de Planos de Benefícios{% endblock %}
 {% block conteudo %}
     <table> 
-        <tr><th>Nome</th><th>Consultas com Desconto</th><th>Percentual de Desconto</th><th>Ações disponíveis</th></tr> 
+        <tr><th>Nome</th><th>Percentual de Desconto</th><th>Ações disponíveis</th></tr> 
         {% for plano in planos %} 
             <tr> 
-                <td>{{ plano.nome }}</td><td>{{ plano.qtConsulta }}</td><td>{{ plano.desconto }}</td> 
+                <td>{{ plano.nome }}</td><td>{{ plano.desconto }}</td> 
 
                 <td><a href="{% url 'clientes:atualiza-plano' pk=plano.id %}"> Atualizar</a> |  
                     <a href="{% url 'clientes:apaga-plano' pk=plano.id %}">    Excluir  </a>

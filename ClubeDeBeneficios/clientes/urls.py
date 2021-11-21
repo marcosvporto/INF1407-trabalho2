@@ -9,7 +9,8 @@ urlpatterns = [
     path('cria/', views.ClienteCreateView.as_view(), name='cria-cliente'),
     path('atualiza/<int:pk>/', views.ClienteUpdateView.as_view(), name='atualiza-cliente'),
     path('apaga/<int:pk>/', views.ClienteDeleteView.as_view(), name='apaga-cliente'),
-    
+    path('verifica/', views.AgendaClienteView.as_view(), name='verifica-cliente'),
+
     path('planos/cria/', views.PlanoCreateView.as_view(), name='cria-plano'),
     path('planos/lista/', views.PlanosListView.as_view(), name='lista-planos'),
     path('planos/atualiza/<int:pk>/', views.PlanoUpdateView.as_view(), name='atualiza-plano'),
@@ -19,5 +20,5 @@ urlpatterns = [
     path('consultas/lista/', views.ConsultaListView.as_view(), name='lista-consultas'),
     path('consultas/atualiza/<int:pk>/', views.ConsultaUpdateView.as_view(), name='atualiza-consulta'),
     path('consultas/apaga/<int:pk>/', views.ConsultaDeleteView.as_view(), name='apaga-consulta'),
-
+    path('consultas/cliente/<int:pk>/', views.ClienteConsultaListView.as_view(), name='consultas-cliente')
 ]

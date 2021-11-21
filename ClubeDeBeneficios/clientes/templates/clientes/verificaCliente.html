@@ -1,0 +1,12 @@
+{% extends 'clientes/base.html' %}
+{% block titulo %}Consultar Agenda do Cliente{% endblock %}
+{% block conteudo %} 
+    <h1>Consultar Agenda do Cliente</h1> 
+    <form action="" method="POST"> 
+        {% csrf_token %} 
+        <table class='formulario'> 
+            {{ formulario.as_table }} 
+        </table> 
+        <button type="submit">Consultar</button> 
+    </form> 
+{% endblock%}

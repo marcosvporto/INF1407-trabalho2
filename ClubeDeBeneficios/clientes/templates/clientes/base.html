@@ -14,15 +14,15 @@
 
 <body>
     <h1>Clínica Médica MedClin - Àrea de Clientes</h1>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    {% block javascript %}
+    {% endblock javascript %}
     {% if user.is_authenticated %} 
     Bem-vindo {{ user.username }} |
-    <a href="/">Homepage</a> | 
-    <a href="{% url 'clientes:lista-clientes' %}">Listar clientes </a> | 
-    <a href="{% url 'clientes:cria-cliente' %}"> Cadastrar cliente </a> |
-    <a href="{% url 'clientes:lista-planos' %}">Listar planos </a> | 
-    <a href="{% url 'clientes:cria-plano' %}"> Cadastrar planos </a> |
-    <a href="{% url 'sec-home' %}">Membros</a> |
+    <a href="/">Homepage</a> |  
+    <a href="{% url 'sec-paginaProfile' %}"> Gestão </a> |
     <a href="{% url 'clientes:lista-clientes' %}">Clientes</a> |
     <a href="{% url 'sec-logout' %}">Logout</a> 
     <hr>
@@ -30,15 +30,20 @@
     Bem-vindo visitante |
     <a href="/">Homepage</a> |
     <a href="{% url 'sec-home' %}">Membros</a> |
-    <a href="{% url 'clientes:cria-cliente' %}">Clientes</a> | 
+    <a href="{% url 'clientes:cria-cliente' %}">Cliente Novo</a> |
+    <a href="{% url 'clientes:verifica-cliente' %}">Consultar Agenda</a>
     {% endif %} 
     {% url 'clientes:cria-cliente' as cria_cliente %}
-    {% if user.is_authenticated or request.path == cria_cliente %}
+    {% url 'clientes:verifica-cliente' as ver_cliente %}
+    
+    {% if user.is_authenticated or request.path == cria_cliente or request.path == ver_cliente or request.path == con_cliente or 'clientes/consultas/cliente' in request.path %}
+    
     {% block conteudo %}{% endblock %}
     {% else %}
     <hr>
     <h1>Área restrita</h1>
     {% endif %}
+    
 </body>
 
 </html>

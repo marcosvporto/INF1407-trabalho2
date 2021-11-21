@@ -7,7 +7,7 @@ class MeuUpdateView(UpdateView):
     if request.user.id == pk: 
       return super().get(request, pk, args, kwargs) 
     else: 
-      return redirect('sec-home')
+      return redirect('sec-paginaProfile')
 
 def homePage(request):
   return render(request,'ClubeDeBeneficios/index.html')
@@ -20,7 +20,7 @@ def registro(request):
         formulario = UserCreationForm(request.POST) 
         if formulario.is_valid(): 
             formulario.save() 
-            return redirect('sec-home') 
+            return redirect('sec-login') 
         
     else: 
         formulario = UserCreationForm() 

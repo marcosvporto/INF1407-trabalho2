@@ -2,13 +2,14 @@
 {% block titulo %}Registro de Usuário{% endblock %}
 {% block conteudo %}
     <table> 
-        <tr><th>Nome</th><th>Telefone</th><th>Data de Nascimento</th><th>Ações disponíveis</th></tr> 
+        <tr><th>Nome</th><th>CPF</th><th>Telefone</th><th>Data de Nascimento</th><th>Plano de Benefícios</th><th>Ações disponíveis</th></tr> 
         {% for pessoa in pessoas %} 
             <tr> 
-                <td>{{ pessoa.nome }}</td><td>{{ pessoa.telefone }}</td><td>{{ pessoa.dtNasc }}</td> 
+                <td>{{ pessoa.nome }}</td><td>{{ pessoa.CPF }}</td><td>{{ pessoa.telefone }}</td><td>{{ pessoa.dtNasc }}</td><td>{{ pessoa.plano }}</td> 
 
                 <td><a href="{% url 'clientes:atualiza-cliente' pk=pessoa.CPF %}"> Atualizar</a> |  
-                    <a href="{% url 'clientes:apaga-cliente' pk=pessoa.CPF %}">    Excluir  </a>
+                    <a href="{% url 'clientes:apaga-cliente' pk=pessoa.CPF %}">    Excluir  </a> |
+                    <a href="{% url 'clientes:consultas-cliente' pk=pessoa.CPF %}">    Consultas  </a>
                 </td> 
            </tr> 
         {% empty %} 
