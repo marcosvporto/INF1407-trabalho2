@@ -156,14 +156,18 @@ class ConsultaUpdateView(View):
         pessoa = Pessoa.objects.get(pk=cpfPessoa)
         print('Pessoa:',pessoa)
         plano = pessoa.plano
-        print('Plano:',plano)
+        desconto = plano.desconto
+        print('Desconto:',desconto)
         if plano != None:
             print("Pessoa tem plano definido")
         else:
             print("Pessoa NAO tem plano definido")
         if formulario.is_valid(): 
-            consulta = formulario.save() 
-            consulta.save() 
+            consulta = formulario.save()
+            valorSemDesconto =  formulario['precoOriginal'].value()
+            print('Valor sem desconto: ', valorSemDesconto)
+            consulta.precoDesconto = ((100 - desconto) / 100) * float(valorSemDesconto) 
+            consulta.save()
             return HttpResponseRedirect(reverse_lazy("clientes:lista-consultas")) 
         else: 
             context = {'consulta': formulario, } 
