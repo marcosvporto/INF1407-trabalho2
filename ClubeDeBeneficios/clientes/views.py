@@ -223,3 +223,11 @@ def verificaCliente(request):
         ser_consultas = serializers.serialize("json", consultas)
         return JsonResponse({"consultas":ser_consultas})
     return JsonResponse({"consultas":False})    
+
+class PlanosConsultasListView(View):
+    def get(self, request, *args, **kwargs):
+        consultas = Consulta.objects.all()
+        planos = Plano.objects.all()
+        context = {'planos':planos, }
+        print(context)
+        return render(request, 'clientes/listaPlanos.html', context)

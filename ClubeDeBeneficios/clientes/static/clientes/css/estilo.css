@@ -6,6 +6,7 @@ Para incluir essa folha de estilo, utilize:
 Não se esqueça de incluir a tag {% load static %} 
 */ 
 /* Ajuda de formulário */ 
+
 .helptext { 
     font-size: 10px; 
 } 
@@ -14,6 +15,46 @@ Não se esqueça de incluir a tag {% load static %}
     color: #FF0000; list-style-type: none; 
 } 
 /* somente th dentro de uma tag da classe th */ 
-.formulario th { 
-    text-align: right; vertical-align: text-top; 
+.formulario { 
+    text-align: right; 
+    vertical-align: text-top; 
+    border-spacing: 5px;
+}
+.lista{
+    width: 80%;
+}
+
+
+.helptext{
+    margin-top: 0;
+}
+body{
+    margin-top: 60px;
+    margin-left: 30px;
+}
+input{
+    width: max-content;
+}
+.homePage{
+    margin-left: 30px;
+}
+.maiorTitulo{
+    margin-left: 30px;
+    margin: 30px;
+}
+.areaCliente {
+    margin: 30px;
+    margin-left: 30px;
+    text-transform: uppercase;
+}
+
+.linksMenu{
+    margin: 30px;
+    margin-left: 30px;
+}
+table th {
+    vertical-align: top;
+}
+td span {
+    vertical-align: text-top;
 }

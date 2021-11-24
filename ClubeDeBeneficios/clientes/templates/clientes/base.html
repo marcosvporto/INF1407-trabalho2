@@ -6,45 +6,51 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block titulo %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'clientes/css/estilo.css' %}">
     <link rel="stylesheet" href="{% static 'clientes/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'clientes/fa/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'clientes/css/estilo.css' %}">
     <script src="{% static 'clientes/js/bootstrap.min.js' %}"></script>
 </head>
 
 <body>
-    <h1>Clínica Médica MedClin - Àrea de Clientes</h1>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-
-    {% block javascript %}
-    {% endblock javascript %}
-    {% if user.is_authenticated %} 
-    Bem-vindo {{ user.username }} |
-    <a href="/">Homepage</a> |  
-    <a href="{% url 'sec-paginaProfile' %}"> Gestão </a> |
-    <a href="{% url 'clientes:lista-clientes' %}">Clientes</a> |
-    <a href="{% url 'sec-logout' %}">Logout</a> 
-    <hr>
-    {% else %}
-    Bem-vindo visitante |
-    <a href="/">Homepage</a> |
-    <a href="{% url 'sec-home' %}">Membros</a> |
-    <a href="{% url 'clientes:cria-cliente' %}">Cliente Novo</a> |
-    <a href="{% url 'clientes:verifica-cliente' %}">Consultar Agenda</a>
-    {% endif %} 
-    {% url 'clientes:cria-cliente' as cria_cliente %}
-    {% url 'clientes:verifica-cliente' as ver_cliente %}
+    <div class='topMenu'>
+        <div>
+            <h1 class='maiorTitulo'>Clínica Médica MedClin - Àrea de Clientes</h1>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     
-    {% if user.is_authenticated or request.path == cria_cliente or request.path == ver_cliente or request.path == con_cliente or 'clientes/consultas/cliente' in request.path %}
-    
-    {% block conteudo %}{% endblock %}
-    {% else %}
-    <hr>
-    <h1>Área restrita</h1>
-    {% endif %}
-    
+        {% block javascript %}
+        {% endblock javascript %}
+        <div class='linksMenu'>
+            {% if user.is_authenticated %} 
+            Bem-vindo {{ user.username }} |
+            <a href="/">Homepage</a> |  
+            <a href="{% url 'sec-paginaProfile' %}"> Gestão </a> |
+            <a href="{% url 'clientes:lista-clientes' %}">Clientes</a> |
+            <a href="{% url 'sec-logout' %}">Logout</a> 
+            <hr>
+            {% else %}
+            Bem-vindo visitante |
+            <a href="/">Homepage</a> |
+            <a href="{% url 'sec-home' %}">Membros</a> |
+            <a href="{% url 'clientes:cria-cliente' %}">Cliente Novo</a> |
+            <a href="{% url 'clientes:verifica-cliente' %}">Consultar Agenda</a>
+            {% endif %} 
+        </div>
+        
+    </div>
+    <div class='areaCliente'>
+        {% url 'clientes:cria-cliente' as cria_cliente %}
+        {% url 'clientes:verifica-cliente' as ver_cliente %}
+        {% if user.is_authenticated or request.path == cria_cliente or request.path == ver_cliente or request.path == con_cliente or 'clientes/consultas/cliente' in request.path %}
+        {% block conteudo %}{% endblock %}
+        {% else %}
+        <hr>
+        <h1>Área restrita</h1>
+        {% endif %}
+    </div>
 </body>
-
+{% block script %}{% endblock %}
 </html>

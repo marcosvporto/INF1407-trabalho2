@@ -4,32 +4,40 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="{% static 'clientes/css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'clientes/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'clientes/fa/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'clientes/css/estilo.css' %}">
     <script src="{% static 'clientes/js/bootstrap.min.js' %}"></script>
     <meta charset="UTF-8">
     <title>{% block titulo %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'clientes/css/estilo.css' %}">
+    
 </head>
 
 <body>
-    <h1>Clínica Médica MedClin</h1>
-    
-    {% if user.is_authenticated %} 
-    Bem-vindo {{ user.username }} |
-    <a href="/">Homepage</a> | 
-    
-    <a href="{% url 'sec-logout' %}">Logout</a> |
-    <a href="{% url 'clientes:lista-clientes' %}">Clientes</a> |
-    {% else %}
-    Bem-vindo visitante |
-    <a href="/">Homepage</a> | 
-    <a href="{% url 'clientes:verifica-cliente' %}">Clientes</a> |
-    {% endif %} 
-    <a href="{% url 'sec-home' %}">Membros</a> |
-    
-    <hr>
-    {% block conteudo %}{% endblock %}
+    <div class='topMenu'>
+        <div>
+            <h1 class='maiorTitulo'>Clínica Médica MedClin</h1>
+        </div>
+        <p class='linksMenu'>
+            {% if user.is_authenticated %} 
+            Bem-vindo {{ user.username }} |
+            <a href="/">Homepage</a> | 
+            
+            <a href="{% url 'sec-logout' %}">Logout</a> |
+            <a href="{% url 'clientes:lista-clientes' %}">Clientes</a> |
+            {% else %}
+            Bem-vindo visitante |
+            <a href="/">Homepage</a> | 
+            <a href="{% url 'clientes:verifica-cliente' %}">Clientes</a> |
+            {% endif %} 
+            <a href="{% url 'sec-login' %}">Membros</a> |
+            <hr>
+            <div class='homePage'>
+                {% block conteudo %}{% endblock %}
+            </div>
+        </p>
+    </div>
 </body>
-
+{% block script %}{% endblock %}
 </html>

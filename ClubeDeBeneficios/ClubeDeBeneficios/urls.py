@@ -25,7 +25,7 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.models import User
 
 urlpatterns = [
-    path('', views.homePage, name='home-page'),
+    path('', views.PlanosConsultasListView.as_view(), name='home-page'),
     path('admin/', admin.site.urls),
     path('clientes/', include('clientes.urls', namespace='clientes')),
     path('accounts/', views.homeSec, name='sec-home'),

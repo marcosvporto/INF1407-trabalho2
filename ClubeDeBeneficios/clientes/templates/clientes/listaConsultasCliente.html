@@ -1,7 +1,7 @@
 {% extends 'clientes/base.html' %}
 {% block titulo %}Gestão de Agendas{% endblock %}
 {% block conteudo %}
-    <table> 
+    <table class='lista'> 
         <tr><th>Especialidade</th><th>Data</th><th>Horário</th><th>Pessoa</th><th>Valor</th></tr> 
         {% for consulta in consultas %} 
             <tr> 
@@ -17,3 +17,12 @@
         {% endfor %} 
     </table>
 {% endblock%}
+{% block script %}
+<script>
+    $(document).ready(function()
+    {
+    $("tr:odd").css({
+        "background-color":"#dff"});
+    });
+</script>
+{% endblock %}

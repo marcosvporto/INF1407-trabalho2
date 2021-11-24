@@ -1,16 +1,38 @@
 {% extends 'ClubeDeBeneficios/home.html' %}
-{% block titulo %}Registro de Usuário{% endblock %}
+{% block titulo %}Consultar Agenda do Cliente{% endblock %}
 {% block conteudo %}
-<h2>Página de Registro</h2>
-<p>Entre com os dados aqui:</p>
-<form method="post">
-    {% csrf_token %}
-    <table class="formulario">
-        {{ formulario.as_table }}
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Confirmar Registro"></td>
-        </tr>
+    <h1>PLANOS DE BENEFÍCIOS DISPONÍVEIS</h1>
+    <table class='lista'> 
+        <tr><th>Nome</th><th>Percentual de Desconto</th> 
+        {% for plano in planos %} 
+            <tr> 
+                <td>{{ plano.nome }}</td><td>{{ plano.desconto }}</td> 
+            </tr> 
+        {% empty %} 
+            <tr><th colspan="4">Ainda não tem planos cadastrados</th></tr> 
+        {% endfor %} 
     </table>
-</form>
+    <br>
+    <br>
+
+    <h1>CONSULTAS DISPONÍVEIS</h1>
+    <table class='lista'> 
+        <tr><th>Especialidade</th><th>Data</th><th>Horário</th><th>Valor</th></tr> 
+        {% for consulta in consultas %} 
+            <tr> 
+                <td>{{ consulta.especialidade }}</td><td>{{ consulta.data }}</td><td>{{ consulta.horario }}</td><td>R${{ consulta.precoOriginal }}</td> 
+           </tr> 
+        {% empty %} 
+            <tr><th colspan="4">Ainda não tem consultas cadastradas</th></tr> 
+        {% endfor %} 
+    </table>
 {% endblock%}
+{% block script %}
+<script>
+    $(document).ready(function()
+    {
+    $("tr:odd").css({
+        "background-color":"#dff"});
+    });
+</script>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'clientes/base.html' %}
 {% block titulo %}Registro de Usuário{% endblock %}
 {% block conteudo %}
-    <table> 
+    <table class='lista'> 
         <tr><th>Nome</th><th>CPF</th><th>Telefone</th><th>Data de Nascimento</th><th>Plano de Benefícios</th><th>Ações disponíveis</th></tr> 
         {% for pessoa in pessoas %} 
             <tr> 
@@ -17,3 +17,12 @@
         {% endfor %} 
     </table>
 {% endblock%}
+{% block script %}
+<script>
+    $(document).ready(function()
+    {
+    $("tr:odd").css({
+        "background-color":"#dff"});
+    });
+</script>
+{% endblock %}
