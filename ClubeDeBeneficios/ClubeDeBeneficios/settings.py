@@ -129,3 +129,9 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DATE_INPUT_FORMATS = ['%d/%m/%Y']
+
+try: 
+    import django_heroku 
+    django_heroku.settings(locals()) 
+except: 
+    pass 
