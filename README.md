@@ -21,6 +21,10 @@ Para um Plano de Benefícios é possível:
  - Ter um nome
  - Ter uma porcentagem de desconto no valor das consultas
 
+Home Page:
+ - PLANOS DE BENEFÍCIOS DISPONÍVEIS
+ - CONSULTAS DISPONÍVEIS
+
 Área secreta do funcionário: Gestão da Clínica
  - ATUALIZAR SEUS DADOS
  - LISTAR CLIENTES
@@ -29,6 +33,9 @@ Para um Plano de Benefícios é possível:
  - CADASTRAR NOVO PLANO DE BENEFÍCIOS
  - LISTAR AGENDAS
  - CADASTRAR NOVA AGENDA
+
+Área do Cliente: CONSULTAR AGENDA
+ - Digitar o CPF para consultar agendamentos
 
 Caminhos mais usados
 1. Cadastro e Login de Membro: Home Page -> Membros
@@ -57,8 +64,7 @@ Outro fluxo possível (próximo ao que seria na realidade)
  - Funcionário atualiza o agendamento para que o novo desconto seja aplicado
 
 Onde foi utilizado AJAX:
-
-Clientes podem consultar seus agendamentos apenas digitando seu CPF
+ - Clientes podem consultar seus agendamentos apenas digitando seu CPF
 
 
 
