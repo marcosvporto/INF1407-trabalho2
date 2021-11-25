@@ -26,12 +26,14 @@
             
             <a href="{% url 'sec-logout' %}">Logout</a> |
             <a href="{% url 'clientes:lista-clientes' %}">Clientes</a> |
+            <a href="{% url 'sec-paginaProfile' %}">Membros</a> |
             {% else %}
             Bem-vindo visitante |
             <a href="/">Homepage</a> | 
             <a href="{% url 'clientes:verifica-cliente' %}">Clientes</a> |
-            {% endif %} 
             <a href="{% url 'sec-login' %}">Membros</a> |
+            
+            {% endif %} 
             <hr>
             <div class='homePage'>
                 {% block conteudo %}{% endblock %}
