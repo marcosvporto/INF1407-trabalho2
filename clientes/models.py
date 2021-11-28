@@ -38,4 +38,4 @@ class Consulta(models.Model):
     precoDesconto = models.IntegerField(default=0,help_text="Valor a Ser Cobrado pela Consulta",verbose_name='Valor c/ Desconto')
     data = models.DateField(help_text='Data da Consuta no formato DD/MM/AAAA',verbose_name='Data')
     horario = models.TimeField(help_text='Hora da Consuta',choices=HORARIOS,verbose_name='Horário')
-    pessoa = models.OneToOneField(Pessoa, null=True, blank=True, on_delete=models.SET_NULL,help_text='Selecione o Paciente')
+    pessoa = models.ForeignKey(Pessoa, unique=False, null=True, blank=True, help_text="Selecione o Paciente", on_delete=models.SET_NULL)

@@ -15,7 +15,7 @@ def homePage(request):
   return render(request,'ClubeDeBeneficios/index.html')
   
 def homeSec(request):
-    return render(request, "registro/homeSec.html")
+    return render(request, "registro/paginaProfile.html")
 
 def registro(request): 
     if request.method == 'POST': 

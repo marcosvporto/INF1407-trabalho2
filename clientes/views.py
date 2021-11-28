@@ -10,6 +10,8 @@ from django.urls.base import reverse_lazy
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
+
 # Create your views here.
 class ClientesListView(View):
     def get(self, request, *args, **kwargs):
@@ -149,31 +151,82 @@ class ConsultaUpdateView(View):
         formulario = ConsultaModel2Form(instance=consulta)
         context = {'formulario':formulario, }
         return render(request, 'clientes/atualizaConsulta.html', context)
-    
+
     def post(self, request, pk, *args, **kwargs): 
         consulta = get_object_or_404(Consulta, pk=pk) 
         formulario = ConsultaModel2Form(request.POST, instance=consulta)
         cpfPessoa = formulario['pessoa'].value()
-        pessoa = Pessoa.objects.get(pk=cpfPessoa)
-        print('Pessoa:',pessoa)
-        plano = pessoa.plano
-        desconto = plano.desconto
-        print('Desconto:',desconto)
-        if plano != None:
-            print("Pessoa tem plano definido")
-        else:
-            print("Pessoa NAO tem plano definido")
-        if formulario.is_valid(): 
-            consulta = formulario.save()
-            valorSemDesconto =  formulario['precoOriginal'].value()
-            print('Valor sem desconto: ', valorSemDesconto)
-            consulta.precoDesconto = ((100 - desconto) / 100) * float(valorSemDesconto) 
-            consulta.save()
+        if cpfPessoa != "":  
+            try:
+                pessoa = Pessoa.objects.get(pk=cpfPessoa)
+                if pessoa != None:
+                    plano = pessoa.plano
+                    if plano != None:
+                        desconto = plano.desconto
+                        if formulario.is_valid():
+                            consulta = formulario.save()
+                            valorSemDesconto =  formulario['precoOriginal'].value()
+                            consulta.precoDesconto = ((100 - desconto) / 100) * float(valorSemDesconto) 
+                            consulta.save()
+                            return HttpResponseRedirect(reverse_lazy("clientes:lista-consultas"))
+                        else:
+                            context = { 'formulario': ConsultaModel2Form, } 
+                            return render(request,"clientes/criaConsulta.html", context)
+                if formulario.is_valid():
+                    consulta = formulario.save()
+                    consulta.precoDesconto = consulta.precoOriginal 
+                    consulta.save() 
+                    return HttpResponseRedirect(reverse_lazy("clientes:lista-consultas")) 
+                else: 
+                        context = {'pessoa': formulario, } 
+                        return render(request, 'clientes/atualizaConsulta.html', context)
+                    
+            except ObjectDoesNotExist:
+                context = { 'formulario': ConsultaModel2Form, } 
+                return render(request,"clientes/criaConsulta.html", context)
+        if formulario.is_valid():
+            consulta = formulario.save() 
+            consulta.save() 
             return HttpResponseRedirect(reverse_lazy("clientes:lista-consultas")) 
         else: 
-            context = {'consulta': formulario, } 
-            return render(request, 'clientes/atualizaConsulta.html', context)
-
+                context = {'pessoa': formulario, } 
+                return render(request, 'clientes/atualizaConsulta.html', context)    
+    
+    # def post(self, request, pk, *args, **kwargs): 
+    #     consulta = get_object_or_404(Consulta, pk=pk) 
+    #     formulario = ConsultaModel2Form(request.POST, instance=consulta)
+    #     cpfPessoa = formulario['pessoa'].value()
+    #     try:
+    #         pessoa = Pessoa.objects.get(pk=cpfPessoa)
+    #         print('Pessoa:',pessoa)
+    #         if Pessoa != None:
+    #             print('--1---')
+    #             plano = pessoa.plano
+    #             if plano != None:
+    #                 print('--2---')
+    #                 desconto = pessoa.desconto
+    #                 if formulario.is_valid(): 
+    #                     print('--3---')
+    #                     consulta = formulario.save()
+    #                     valorSemDesconto =  formulario['precoOriginal'].value()
+    #                     consulta.precoDesconto = ((100 - desconto) / 100) * float(valorSemDesconto) 
+    #                     consulta.save()
+    #                     return HttpResponseRedirect(reverse_lazy("clientes:lista-consultas"))  
+    #                     print('--4---')           
+    #         if formulario.is_valid(): 
+    #             print('--6---')
+    #             consulta = formulario.save()
+    #             consulta.save()
+    #             return HttpResponseRedirect(reverse_lazy("clientes:lista-consultas")) 
+    #         else:
+    #             print('--7---')
+    #             context = {'consulta': formulario, }
+    #             return render(request, 'clientes/atualizaConsulta.html', context)
+    #     except ObjectDoesNotExist:
+    #         print('--8---')
+    #         context = { 'formulario': ConsultaModel2Form, } 
+    #         return render(request,"clientes/criaConsulta.html", context)
+                
 
 class ConsultaDeleteView(View): 
     def get(self, request, pk, *args, **kwargs): 
@@ -188,24 +241,10 @@ class ConsultaDeleteView(View):
         return HttpResponseRedirect( 
             reverse_lazy("clientes:lista-consultas"))
 
-
 class AgendaClienteView(CreateView):
     def get(self, request, *args, **kwargs): 
         context = { 'formulario': ClienteConsultaForm, } 
         return render(request,"clientes/verificaClienteAjax.html", context) 
-    
-    # template_name = "clientes/verificaClienteAjax.html"
-    # form_class = ClienteConsultaForm
-    
-    # def post(self, request, *args, **kwargs):
-    #     formulario = ClienteConsultaForm(request.POST) 
-    #     print('CPF = ', formulario['CPF'].value())
-    #     if Pessoa.objects.filter(CPF=formulario['CPF'].value()).exists():
-    #         return HttpResponseRedirect(reverse_lazy("clientes:consultas-cliente",kwargs={"pk":str(formulario['CPF'].value())}))
-    #     context = { 'formulario': ClienteConsultaForm, } 
-    #     return render(request,"clientes/verificaCliente.html", context)
-
-
 
 class ClienteConsultaListView(View):
     def get(self, request, pk, *args, **kwargs):
@@ -213,7 +252,6 @@ class ClienteConsultaListView(View):
         consultas = Consulta.objects.filter(pessoa = cliente)
         context = {'consultas':consultas, }
         return render(request, 'clientes/listaConsultasCliente.html', context)
-
 
 def verificaCliente(request):
     cpf = request.GET.get("CPF", None)
